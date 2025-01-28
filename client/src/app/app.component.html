@@ -1,0 +1,18 @@
+<h1>{{title}}</h1>
+
+<!-- 
+this requires the imported ngFor (or CommonModule)
+<ul>
+    <li *ngFor="let user of users">
+        {{user.id}} -  {{user.userName}}
+    </li>
+</ul> -->
+
+<!--this way requires no imports and is part of angular 17+ -->
+<ul>
+    @for (user of users; track user.id) {
+        <li>
+            {{user.id}} - {{user.userName}}
+        </li>
+    }
+</ul>

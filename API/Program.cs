@@ -29,6 +29,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(x => 
+    x.AllowAnyHeader()
+    .AllowAnyMethod()
+    .WithOrigins("http://localhost:4200",
+                    "https://localhost:4200"));
 //app.UseHttpsRedirection(); //turn this back on to force https based on http setting in launchSettings.json
 
 app.UseAuthorization();
