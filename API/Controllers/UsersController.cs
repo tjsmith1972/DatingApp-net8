@@ -1,14 +1,14 @@
 using System;
 using API.Data;
 using API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")] // /api/users this introduces the "/api/*" routing
-public class UsersController(DataContext context) : ControllerBase
+
+public class UsersController(DataContext context) : BaseApiController
 {
     ////////////////////synchronous code/////////////////////////
     // [HttpGet]
@@ -28,6 +28,7 @@ public class UsersController(DataContext context) : ControllerBase
     //     return Ok(user);
     // }
     ///////////////// asynchronous code ////////////////////
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
@@ -35,6 +36,7 @@ public class UsersController(DataContext context) : ControllerBase
         return Ok(users);
     }
 
+    [Authorize]
     [HttpGet("{id:int}")] //api/users/1
     public async Task<ActionResult<AppUser>> GetUser(int id)
     {

@@ -11,7 +11,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   http = inject(HttpClient);
-  title = 'Dating App';
+  title = 'File Uploads';
   users: any;
   
   //using onInit to set up the callback functions and execute the request
