@@ -10,7 +10,8 @@ import { HomeComponent } from "./home/home.component";
   selector: 'app-root',
   imports: [
     NavComponent,
-    HomeComponent
+    HomeComponent,
+    RouterOutlet
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
