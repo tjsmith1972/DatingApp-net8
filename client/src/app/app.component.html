@@ -1,5 +1,6 @@
-<h1>{{title}}</h1>
+<app-nav></app-nav>
 
+<div class="container" style="margin-top: 100px;">
 <!-- 
 this requires the imported ngFor (or CommonModule)
 <ul>
@@ -9,10 +10,13 @@ this requires the imported ngFor (or CommonModule)
 </ul> -->
 
 <!--this way requires no imports and is part of angular 17+ -->
-<ul>
+<!-- <ul>
     @for (user of users; track user.id) {
         <li>
             {{user.id}} - {{user.userName}}
         </li>
     }
-</ul>
+</ul> -->
+
+<app-home></app-home>
+</div>
