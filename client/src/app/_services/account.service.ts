@@ -1,20 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../models/user';
+import { Injectable, inject, signal } from '@angular/core';
+import { User } from '../_models/user';
 import { map } from 'rxjs';
-//services are created with the appication and die only when app dies
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-
   private http = inject(HttpClient);
+  baseUrl = environment.apiUrl;
+  currentUser = signal<User | null>(null);
 
-  baseUrl = 'https://localhost:5001/api/';
-  
-  currentUser = signal<User | null>(null); //sets up signal
-
-  login(model: any){
+  login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map(user => {
         if (user) {
@@ -25,7 +23,7 @@ export class AccountService {
     )
   }
 
-  register(model: any){
+  register(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       map(user => {
         if (user) {
@@ -37,7 +35,7 @@ export class AccountService {
     )
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('user');
     this.currentUser.set(null);
   }
