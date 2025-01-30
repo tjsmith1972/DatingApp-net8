@@ -28,7 +28,8 @@ public static class ApplicationServiceExtensions
 
         //services.AddSingleton //this keeps one instance across the app
         services.AddScoped<ITokenService, TokenService>(); //scoped allows injection to be in charge of the lifecycle
-        
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         return services;
     }
 }

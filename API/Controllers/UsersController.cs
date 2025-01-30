@@ -1,15 +1,23 @@
 using System;
 using API.Data;
+using API.DTOs;
+using API.Interfaces;
 using API.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-
-public class UsersController(DataContext context) : BaseApiController
+//switched from direct dbcontext when implementing repository method
+//public class UsersController(DataContext context) : BaseApiController
+//public class UsersController(IUserRepository userRepository, IMapper mapper) : BaseApiController
+//removed mapper when we started mapping in the repo
+[Authorize]
+public class UsersController(IUserRepository userRepository) : BaseApiController
 {
+    #region 
     ////////////////////synchronous code/////////////////////////
     // [HttpGet]
     // public ActionResult<IEnumerable<AppUser>> GetUsers()
@@ -27,23 +35,32 @@ public class UsersController(DataContext context) : BaseApiController
         
     //     return Ok(user);
     // }
+    #endregion
+
     ///////////////// asynchronous code ////////////////////
-    [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
-        var users = await context.Users.ToListAsync();
+        // var users = await userRepository.GetUsersAsync();
+        // var usersToReturn = mapper.Map<IEnumerable<MemberDto>>(users);
+        // return Ok(usersToReturn);
+        // that was old way pre mapper in repo
+        var users = await userRepository.GetMembersAsync();
         return Ok(users);
     }
 
-    [Authorize]
-    [HttpGet("{id:int}")] //api/users/1
-    public async Task<ActionResult<AppUser>> GetUser(int id)
+    //[HttpGet("{id:int}")] //api/users/1 -this used dbcontext and went to id
+    [HttpGet("{username}")]
+    public async Task<ActionResult<MemberDto>> GetUser(string username)
     {
-        var user = await context.Users.FindAsync(id);
+        // var user = await userRepository.GetUserByUsernameAsync(username);        
+        // if(user == null) return NotFound();        
+        // var userToReturn = mapper.Map<MemberDto>(user);
+        // return Ok(userToReturn);
+        //^^ old way pre mapper in repo
         
-        if(user == null) return NotFound();
-        
+        var user = await userRepository.GetMemberAsync(username);        
+        if(user == null) return NotFound();        
         return Ok(user);
     }
 

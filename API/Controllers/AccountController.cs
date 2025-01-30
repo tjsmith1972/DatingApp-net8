@@ -44,17 +44,18 @@ public class AccountController(DataContext context, ITokenService tokenService) 
 
         using var hmac = new HMACSHA512();//not injected, just used and disposed immediately upon loss of scope.
 
-        var user = new AppUser
-        {
-            UserName = registerDto.Username,
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-            PasswordSalt = hmac.Key
-        };
+        return Ok();
+        // var user = new AppUser
+        // {
+        //     UserName = registerDto.Username,
+        //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+        //     PasswordSalt = hmac.Key
+        // };
 
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        // context.Users.Add(user);
+        // await context.SaveChangesAsync();
 
-        return Ok(user);
+        // return Ok(user);
     }
 
     [HttpPost("login")]
